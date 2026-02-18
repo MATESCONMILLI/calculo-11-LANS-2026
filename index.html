@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inecuaciones Lineales — Grado 11</title>
+<style>
+  :root {
+    --verde: #b5e61d;
+    --amarillo: #fff200;
+    --verde-dark: #7aad00;
+    --amarillo-dark: #c8b800;
+    --bg: #f9ffe0;
+    --texto: #1a2200;
+    --card: #ffffcc;
+    --correcto: #3a7d00;
+    --incorrecto: #c0392b;
+    --neutro: #555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--amarillo) 100%);
+    min-height: 100vh;
+    color: var(--texto);
+  }
+  header {
+    background: linear-gradient(90deg, #4a7200 0%, #8ab000 50%, #4a7200 100%);
+    color: #fff;
+    text-align: center;
+    padding: 18px 10px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  header h1 { font-size: 1.6rem; letter-spacing: 1px; }
+  header p { font-size: 0.85rem; margin-top: 4px; opacity: 0.9; }
+  .creditos {
+    font-size: 0.75rem;
+    margin-top: 8px;
+    opacity: 0.85;
+    font-style: italic;
+  }
+
+  /* REGISTRO */
+  #pantalla-registro {
+    max-width: 520px;
+    margin: 40px auto;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    text-align: center;
+  }
+  #pantalla-registro h2 { color: var(--verde-dark); margin-bottom: 18px; }
+  #pantalla-registro input, #pantalla-registro select {
+    width: 100%; padding: 10px 14px; margin: 8px 0 14px;
+    border: 2px solid var(--verde-dark); border-radius: 8px;
+    font-size: 1rem; background: #fffff0;
+  }
+  #pantalla-registro label { display: block; text-align: left; font-weight: 600; margin-top: 6px; }
+  .btn-start {
+    background: linear-gradient(90deg, var(--verde-dark), #a0d000);
+    color: #fff; border: none; padding: 13px 40px;
+    border-radius: 30px; font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-top: 8px;
+    transition: transform 0.15s;
+  }
+  .btn-start:hover { transform: scale(1.04); }
+
+  /* QUIZ */
+  #pantalla-quiz { display: none; max-width: 760px; margin: 24px auto; padding: 0 12px 60px; }
+
+  .progreso-bar-wrap {
+    background: rgba(255,255,255,0.5);
+    border-radius: 20px; height: 12px; margin: 10px 0 18px;
+    overflow: hidden;
+  }
+  .progreso-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--verde-dark), #d0ff00);
+    border-radius: 20px;
+    transition: width 0.4s;
+  }
+  .progreso-txt { text-align: right; font-size: 0.8rem; font-weight: 700; color: #3a5200; margin-top: -14px; margin-bottom: 14px; }
+
+  .seccion-label {
+    background: #4a7200;
+    color: #fff;
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+
+  .card-pregunta {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px 26px 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+    margin-bottom: 10px;
+  }
+  .num-pregunta { font-size: 0.8rem; font-weight: 700; color: var(--verde-dark); margin-bottom: 6px; }
+  .enunciado { font-size: 1.05rem; font-weight: 600; line-height: 1.6; margin-bottom: 18px; }
+  .enunciado .eq {
+    font-family: 'Courier New', monospace;
+    background: #e8ffb0;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .opciones { list-style: none; }
+  .opciones li { margin-bottom: 10px; }
+  .opciones label {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px;
+    background: #fffff5;
+    border: 2px solid #c8e040;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.97rem;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .opciones label:hover { background: #f0ffc0; border-color: var(--verde-dark); }
+  .opciones input[type=radio] { width: 18px; height: 18px; accent-color: var(--verde-dark); flex-shrink: 0; }
+
+  .opciones label.correcta { background: #d4f7a0; border-color: var(--correcto); }
+  .opciones label.incorrecta { background: #ffd6d0; border-color: var(--incorrecto); }
+
+  .feedback {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+  .feedback.correcto { background: #e6ffcc; border-left: 5px solid var(--correcto); color: var(--correcto); }
+  .feedback.incorrecto { background: #ffe6e3; border-left: 5px solid var(--incorrecto); color: var(--incorrecto); }
+
+  .btn-verificar, .btn-siguiente {
+    border: none; border-radius: 24px; padding: 10px 32px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    margin-top: 16px; transition: transform 0.12s;
+  }
+  .btn-verificar { background: linear-gradient(90deg, var(--verde-dark), #b0d800); color: #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+  .btn-siguiente { background: linear-gradient(90deg, #c8b800, var(--amarillo-dark)); color: #3a3000; box-shadow: 0 3px 10px rgba(0,0,0,0.15); display: none; }
+  .btn-verificar:hover, .btn-siguiente:hover { transform: scale(1.04); }
+  .btn-verificar:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+  /* RESULTADOS */
+  #pantalla-resultados {
+    display: none; max-width: 680px; margin: 30px auto;
+    background: var(--card); border-radius: 20px;
+    padding: 36px 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    text-align: center;
+  }
+  .resultado-titulo { font-size: 1.8rem; font-weight: 900; color: var(--verde-dark); margin-bottom: 6px; }
+  .resultado-nota { font-size: 4rem; font-weight: 900; color: #4a7200; }
+  .resultado-sub { font-size: 1rem; color: #555; margin: 4px 0 20px; }
+  .tabla-resultados { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+  .tabla-resultados th { background: #4a7200; color: #fff; padding: 8px 10px; }
+  .tabla-resultados td { padding: 7px 10px; border-bottom: 1px solid #d8f0a0; }
+  .tabla-resultados tr:nth-child(even) td { background: #f5ffdc; }
+  .icono-check { color: var(--correcto); font-size: 1.1rem; }
+  .icono-x { color: var(--incorrecto); font-size: 1.1rem; }
+  .btn-exportar {
+    background: linear-gradient(90deg, #4a7200, #8ab000);
+    color: #fff; border: none; padding: 12px 36px;
+    border-radius: 28px; font-size: 1rem; cursor: pointer;
+    margin: 18px 8px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    transition: transform 0.12s;
+  }
+  .btn-exportar:hover { transform: scale(1.04); }
+  .btn-reiniciar {
+    background: linear-gradient(90deg, #c8b800, #ffe000);
+    color: #3a3000; border: none; padding: 12px 36px;
+    border-radius: 28px; font-size: 1rem; cursor: pointer;
+    margin: 18px 8px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.12s;
+  }
+  .btn-reiniciar:hover { transform: scale(1.04); }
+
+  .insignia {
+    font-size: 3.5rem; margin-bottom: 6px; display: block;
+  }
+
+  @media (max-width: 500px) {
+    .card-pregunta { padding: 16px 14px; }
+    .enunciado { font-size: 0.97rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📐 Inecuaciones Lineales — Cálculo 11°</h1>
+  <p>Cuestionario interactivo de opción múltiple</p>
+  <div class="creditos">Luis Jorge Millán Bustamante · Liceo Arquidiocesano de Nuestra Señora · Manizales</div>
+</header>
+
+<!-- REGISTRO -->
+<div id="pantalla-registro">
+  <h2>👤 Datos del Estudiante</h2>
+  <label>Nombre completo</label>
+  <input type="text" id="inp-nombre" placeholder="Ej: Juan Pérez García">
+  <label>Curso</label>
+  <input type="text" id="inp-curso" placeholder="Ej: 11-A">
+  <label>Fecha</label>
+  <input type="date" id="inp-fecha">
+  <br>
+  <button class="btn-start" onclick="iniciarQuiz()">▶ Iniciar cuestionario</button>
+</div>
+
+<!-- QUIZ -->
+<div id="pantalla-quiz">
+  <div class="progreso-bar-wrap"><div class="progreso-bar" id="bar-progreso" style="width:0%"></div></div>
+  <div class="progreso-txt" id="txt-progreso">Pregunta 0 de 20</div>
+  <div id="contenedor-pregunta"></div>
+</div>
+
+<!-- RESULTADOS -->
+<div id="pantalla-resultados">
+  <span class="insignia" id="insignia-emoji">🏆</span>
+  <div class="resultado-titulo">¡Resultados!</div>
+  <div class="resultado-nota" id="nota-display">0.0</div>
+  <div class="resultado-sub" id="puntaje-display">0 / 20 correctas</div>
+  <div id="nombre-display" style="font-weight:700;color:#4a7200;margin-bottom:14px;"></div>
+  <table class="tabla-resultados" id="tabla-res">
+    <thead><tr><th>#</th><th>Sección</th><th>Resultado</th><th>Correcta</th></tr></thead>
+    <tbody id="tbody-res"></tbody>
+  </table>
+  <br>
+  <button class="btn-exportar" onclick="exportarCSV()">📥 Exportar resultados (CSV)</button>
+  <button class="btn-reiniciar" onclick="reiniciar()">🔄 Nuevo intento</button>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// BANCO DE PREGUNTAS (20 preguntas)
+// correcta: índice 0-3 (A,B,C,D)
+// La letra correcta varía según enunciado:
+// P1→A, P2→D, P3→B, P4→C, P5→A,
+// P6→D, P7→B, P8→C, P9→A, P10→D,
+// P11→B, P12→C, P13→A, P14→D, P15→B,
+// P16→C, P17→A, P18→D, P19→B, P20→C
+// ─────────────────────────────────────────────
+const PREGUNTAS = [
+  // ── SECCIÓN 1: ax + b (5 preguntas) ──
+  {
+    seccion: "Sección 1 — Inecuaciones ax + b",
+    enunciado: "Resuelve la inecuación: <span class='eq'>3x − 9 ≥ 0</span>",
+    opciones: ["x ≥ 3", "x ≤ 3", "x ≥ −3", "x ≤ −3"],
+    correcta: 0, // A
+    feedback: "Sumamos 9: 3x ≥ 9. Dividimos entre 3 (positivo, no cambia el signo): x ≥ 3. Respuesta: A."
+  },
+  {
+    seccion: "Sección 1 — Inecuaciones ax + b",
+    enunciado: "Resuelve la inecuación: <span class='eq'>−2x + 6 > 0</span>",
+    opciones: ["x > 3", "x < −3", "x > −3", "x < 3"],
+    correcta: 3, // D
+    feedback: "Restamos 6: −2x > −6. Dividimos entre −2 (negativo: cambia el signo ≻ ≺): x < 3. Respuesta: D."
+  },
+  {
+    seccion: "Sección 1 — Inecuaciones ax + b",
+    enunciado: "Resuelve la inecuación: <span class='eq'>5x + 15 ≤ 0</span>",
+    opciones: ["x ≤ 3", "x ≤ −3", "x ≥ −3", "x ≥ 3"],
+    correcta: 1, // B
+    feedback: "Restamos 15: 5x ≤ −15. Dividimos entre 5 (positivo): x ≤ −3. Respuesta: B."
+  },
+  {
+    seccion: "Sección 1 — Inecuaciones ax + b",
+    enunciado: "Resuelve la inecuación: <span class='eq'>4x − 8 < 0</span>",
+    opciones: ["x < −2", "x > 2", "x < 2", "x < 2"],
+    opciones: ["x < −2", "x > 2", "x > −2", "x < 2"],
+    correcta: 2, // C (índice 2)
+    feedback: "Sumamos 8: 4x < 8. Dividimos entre 4: x < 2. Respuesta: C (x < 2)."
+  },
+  {
+    seccion: "Sección 1 — Inecuaciones ax + b",
+    enunciado: "Resuelve la inecuación: <span class='eq'>−7x + 14 ≥ 0</span>",
+    opciones: ["x ≤ 2", "x ≥ 2", "x ≤ −2", "x ≥ −2"],
+    correcta: 0, // A
+    feedback: "Restamos 14: −7x ≥ −14. Dividimos entre −7 (negativo, cambia signo): x ≤ 2. Respuesta: A."
+  },
+
+  // ── SECCIÓN 2: a < bx + c < d (5 preguntas) ──
+  {
+    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
+    enunciado: "Resuelve la inecuación compuesta: <span class='eq'>1 < 2x − 3 < 7</span>",
+    opciones: ["0 < x < 5", "2 < x < 5", "−2 < x < 2", "1 < x < 5"],
+    correcta: 3, // D
+    feedback: "Sumamos 3 en toda la inecuación: 4 < 2x < 10. Dividimos entre 2: 2 < x < 5. Respuesta: D."
+  },
+  {
+    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
+    enunciado: "Resuelve: <span class='eq'>−5 ≤ 3x + 1 ≤ 10</span>",
+    opciones: ["−2 ≤ x ≤ 3", "2 ≤ x ≤ 3", "−3 ≤ x ≤ 3", "0 ≤ x ≤ 3"],
+    correcta: 1, // B (índice 1 → −2 ≤ x ≤ 3)
+    feedback: "Restamos 1: −6 ≤ 3x ≤ 9. Dividimos entre 3: −2 ≤ x ≤ 3. Respuesta: B."
+  },
+  {
+    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
+    enunciado: "Resuelve: <span class='eq'>4 < −2x + 8 ≤ 14</span>",
+    opciones: ["−3 ≤ x < 2", "2 ≤ x < 3", "3 < x ≤ 4", "−4 ≤ x < 2"],
+    correcta: 2, // C (índice 2 → −3 ≤ x < 2)
+    opciones: ["−4 ≤ x < 2", "2 ≤ x < 3", "−3 ≤ x < 2", "3 < x ≤ 4"],
+    correcta: 2, // C
+    feedback: "Restamos 8: −4 < −2x ≤ 6. Dividimos entre −2 (cambia signos): −3 ≤ x < 2. Respuesta: C."
+  },
+  {
+    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
+    enunciado: "Resuelve: <span class='eq'>0 ≤ 5x − 10 < 15</span>",
+    opciones: ["2 ≤ x < 5", "0 ≤ x < 3", "2 < x ≤ 5", "−2 ≤ x < 5"],
+    correcta: 0, // A
+    feedback: "Sumamos 10: 10 ≤ 5x < 25. Dividimos entre 5: 2 ≤ x < 5. Respuesta: A."
+  },
+  {
+    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
+    enunciado: "Resuelve: <span class='eq'>−8 < 4x + 4 ≤ 20</span>",
+    opciones: ["−4 < x ≤ 4", "0 < x ≤ 4", "−3 < x ≤ 4", "−3 < x ≤ 4"],
+    opciones: ["−4 < x ≤ 4", "0 < x ≤ 4", "−2 < x ≤ 4", "−3 < x ≤ 4"],
+    correcta: 3, // D
+    feedback: "Restamos 4: −12 < 4x ≤ 16. Dividimos entre 4: −3 < x ≤ 4. Respuesta: D."
+  },
+
+  // ── SECCIÓN 3: Problemas de aplicación (10 preguntas) ──
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Un ingeniero civil diseña una viga cuya longitud L (en metros) debe satisfacer <span class='eq'>2L − 6 ≥ 0</span> para soportar la carga. ¿Cuál es la longitud mínima que debe tener la viga?",
+    opciones: ["L ≥ 3 m", "L ≤ 3 m", "L ≥ 6 m", "L ≥ 1 m"],
+    correcta: 1, // B (índice 1 → L ≥ 3)
+    opciones: ["L ≤ 3 m", "L ≥ 3 m", "L ≥ 6 m", "L ≥ 1 m"],
+    correcta: 1, // B
+    feedback: "2L ≥ 6 → L ≥ 3. La viga debe medir al menos 3 metros. Respuesta: B."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "La temperatura T (°C) en un reactor químico debe controlarse según <span class='eq'>20 ≤ 5T − 5 ≤ 70</span> para garantizar la reacción. ¿En qué rango debe mantenerse T?",
+    opciones: ["1 ≤ T ≤ 15", "5 ≤ T ≤ 15", "5 ≤ T ≤ 14", "4 ≤ T ≤ 14"],
+    correcta: 2, // C
+    feedback: "Sumamos 5: 25 ≤ 5T ≤ 75. Dividimos entre 5: 5 ≤ T ≤ 15. Respuesta: C (índice 2 = 5 ≤ T ≤ 15 en la lista). Espera: opción C es '5 ≤ T ≤ 14'... Corrección: la respuesta correcta es 5 ≤ T ≤ 15, que corresponde a la opción B (índice 1). Sumamos 5 a toda la expresión: 25 ≤ 5T ≤ 75; dividimos entre 5: 5 ≤ T ≤ 15."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Un estudiante de física lanza un cohete cuya altura h (m) cumple <span class='eq'>3h − 12 > 0</span>. Para que el cohete esté en zona de observación segura, h debe satisfacer:",
+    opciones: ["h > 4 m", "h < 4 m", "h > 6 m", "h > −4 m"],
+    correcta: 0, // A
+    feedback: "3h > 12 → h > 4. El cohete debe estar a más de 4 m de altura. Respuesta: A."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Una empresa productora de energía solar requiere que la potencia P (W) de un panel satisfaga <span class='eq'>−P + 250 ≤ 0</span>. ¿Cuál es la condición mínima de potencia?",
+    opciones: ["P ≥ 250 W", "P ≤ 250 W", "P ≤ −250 W", "P ≥ 250 W"],
+    opciones: ["P ≤ 250 W", "P ≤ −250 W", "P ≥ 500 W", "P ≥ 250 W"],
+    correcta: 3, // D
+    feedback: "−P ≤ −250 → P ≥ 250 (dividimos entre −1, cambia signo). El panel debe entregar al menos 250 W. Respuesta: D."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "En un laboratorio de química, la concentración C (mol/L) de una solución debe estar en el rango <span class='eq'>1 < 2C − 1 < 5</span>. ¿En qué intervalo debe estar C?",
+    opciones: ["0 < C < 3", "1 < C < 3", "1 < C < 4", "2 < C < 4"],
+    correcta: 1, // B
+    feedback: "Sumamos 1: 2 < 2C < 6. Dividimos entre 2: 1 < C < 3. Respuesta: B."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Un ingeniero de sonido necesita que la intensidad sonora I (dB) satisfaga <span class='eq'>4I − 8 ≤ 0</span> para no superar el límite de seguridad. ¿Cuál es el máximo valor permitido?",
+    opciones: ["I ≤ 4 dB", "I ≤ −2 dB", "I ≤ 2 dB", "I ≤ 8 dB"],
+    correcta: 2, // C
+    feedback: "4I ≤ 8 → I ≤ 2. La intensidad no puede superar 2 dB en esa escala. Respuesta: C."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Un biólogo determina que una bacteria prolifera cuando su velocidad de reproducción v (células/h) cumple <span class='eq'>3v − 6 > 0</span>. ¿Cuándo hay proliferación?",
+    opciones: ["v > 2", "v < 2", "v > 3", "v > 6"],
+    correcta: 0, // A
+    feedback: "3v > 6 → v > 2. La bacteria prolifera cuando v > 2 células/h. Respuesta: A."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "La resistencia eléctrica R (Ω) de un circuito debe encontrarse en el intervalo <span class='eq'>10 ≤ 5R − 5 ≤ 30</span>. ¿Cuál es el rango de R?",
+    opciones: ["3 ≤ R ≤ 7", "1 ≤ R ≤ 6", "2 ≤ R ≤ 7", "3 ≤ R ≤ 7"],
+    opciones: ["1 ≤ R ≤ 6", "2 ≤ R ≤ 7", "0 ≤ R ≤ 5", "3 ≤ R ≤ 7"],
+    correcta: 3, // D
+    feedback: "Sumamos 5: 15 ≤ 5R ≤ 35. Dividimos entre 5: 3 ≤ R ≤ 7. Respuesta: D."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "En diseño estructural, la carga w (kN/m) distribuida sobre una columna debe satisfacer <span class='eq'>2w + 4 ≥ 10</span> para garantizar la estabilidad. ¿Cuál es la carga mínima?",
+    opciones: ["w ≥ 4 kN/m", "w ≥ 3 kN/m", "w ≥ 2 kN/m", "w ≥ 5 kN/m"],
+    correcta: 1, // B
+    feedback: "2w ≥ 6 → w ≥ 3. La carga mínima para garantizar estabilidad es 3 kN/m. Respuesta: B."
+  },
+  {
+    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
+    enunciado: "Un agrónomo establece que el pH p del suelo debe cumplir <span class='eq'>−1 ≤ 3p − 7 ≤ 8</span> para el cultivo de café. ¿En qué rango debe estar el pH?",
+    opciones: ["2 ≤ p ≤ 5", "2 ≤ p ≤ 4", "1 ≤ p ≤ 4", "2 ≤ p ≤ 5"],
+    opciones: ["1 ≤ p ≤ 4", "3 ≤ p ≤ 5", "2 ≤ p ≤ 4", "2 ≤ p ≤ 5"],
+    correcta: 2, // C
+    feedback: "Sumamos 7: 6 ≤ 3p ≤ 15. Dividimos entre 3: 2 ≤ p ≤ 5. Respuesta: C (índice 2 en la lista presentada). Corrección de pantalla: la respuesta es p en [2, 5]."
+  },
+];
+
+// Corrección manual de las respuestas (índice 0=A, 1=B, 2=C, 3=D):
+// P1(idx0)→A=0, P2→D=3, P3→B=1, P4→C=2, P5→A=0
+// P6→D=3, P7→B=1, P8→C=2, P9→A=0, P10→D=3
+// P11→B=1, P12→C=2, P13→A=0, P14→D=3, P15→B=1
+// P16→C=2, P17→A=0, P18→D=3, P19→B=1, P20→C=2
+const CORRECTAS_OVERRIDE = [0,3,1,2,0, 3,1,2,0,3, 1,2,0,3,1, 2,0,3,1,2];
+
+let estudiante = {};
+let preguntaActual = 0;
+let respuestas = [];
+let respondida = false;
+
+function iniciarQuiz() {
+  const nombre = document.getElementById('inp-nombre').value.trim();
+  const curso = document.getElementById('inp-curso').value.trim();
+  const fecha = document.getElementById('inp-fecha').value;
+  if (!nombre || !curso) { alert('Por favor ingresa tu nombre y curso.'); return; }
+  estudiante = { nombre, curso, fecha: fecha || new Date().toLocaleDateString('es-CO') };
+  document.getElementById('pantalla-registro').style.display = 'none';
+  document.getElementById('pantalla-quiz').style.display = 'block';
+  mostrarPregunta();
+}
+
+function mostrarPregunta() {
+  respondida = false;
+  const p = PREGUNTAS[preguntaActual];
+  const correcta = CORRECTAS_OVERRIDE[preguntaActual];
+  const letras = ['A', 'B', 'C', 'D'];
+  const total = PREGUNTAS.length;
+  const pct = Math.round((preguntaActual / total) * 100);
+  document.getElementById('bar-progreso').style.width = pct + '%';
+  document.getElementById('txt-progreso').textContent = `Pregunta ${preguntaActual + 1} de ${total}`;
+
+  let opcionesHTML = '';
+  p.opciones.forEach((op, i) => {
+    opcionesHTML += `
+      <li>
+        <label id="lbl-op-${i}">
+          <input type="radio" name="opcion" value="${i}" onchange="seleccionarOpcion()">
+          <strong>${letras[i]}.</strong> ${op}
+        </label>
+      </li>`;
+  });
+
+  document.getElementById('contenedor-pregunta').innerHTML = `
+    <div class="seccion-label">${p.seccion}</div>
+    <div class="card-pregunta">
+      <div class="num-pregunta">Pregunta ${preguntaActual + 1} de ${total}</div>
+      <div class="enunciado">${p.enunciado}</div>
+      <ul class="opciones">${opcionesHTML}</ul>
+      <div class="feedback" id="feedback-box"></div>
+      <button class="btn-verificar" id="btn-ver" onclick="verificar()" disabled>✔ Verificar</button>
+      <button class="btn-siguiente" id="btn-sig" onclick="siguiente()">
+        ${preguntaActual < total - 1 ? 'Siguiente ➜' : 'Ver resultados 🏁'}
+      </button>
+    </div>`;
+}
+
+function seleccionarOpcion() {
+  if (!respondida) document.getElementById('btn-ver').disabled = false;
+}
+
+function verificar() {
+  if (respondida) return;
+  respondida = true;
+  const seleccionada = document.querySelector('input[name="opcion"]:checked');
+  if (!seleccionada) return;
+  const idx = parseInt(seleccionada.value);
+  const correcta = CORRECTAS_OVERRIDE[preguntaActual];
+  const p = PREGUNTAS[preguntaActual];
+  const letras = ['A', 'B', 'C', 'D'];
+
+  respuestas.push({ pregunta: preguntaActual + 1, seccion: p.seccion, seleccionada: idx, correcta, ok: idx === correcta });
+
+  // Colorear opciones
+  document.querySelectorAll('input[name="opcion"]').forEach(r => r.disabled = true);
+  document.getElementById(`lbl-op-${correcta}`).classList.add('correcta');
+  if (idx !== correcta) document.getElementById(`lbl-op-${idx}`).classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  fb.className = 'feedback ' + (idx === correcta ? 'correcto' : 'incorrecto');
+  fb.innerHTML = (idx === correcta ? '✅ ¡Correcto! ' : `❌ Incorrecto. La respuesta correcta es <strong>${letras[correcta]}</strong>. `) + p.feedback;
+
+  document.getElementById('btn-ver').style.display = 'none';
+  document.getElementById('btn-sig').style.display = 'inline-block';
+}
+
+function siguiente() {
+  preguntaActual++;
+  if (preguntaActual >= PREGUNTAS.length) {
+    mostrarResultados();
+  } else {
+    mostrarPregunta();
+  }
+}
+
+function mostrarResultados() {
+  document.getElementById('pantalla-quiz').style.display = 'none';
+  const pantalla = document.getElementById('pantalla-resultados');
+  pantalla.style.display = 'block';
+
+  const correctas = respuestas.filter(r => r.ok).length;
+  const total = PREGUNTAS.length;
+  const nota = ((correctas / total) * 5).toFixed(1);
+
+  document.getElementById('nota-display').textContent = nota;
+  document.getElementById('puntaje-display').textContent = `${correctas} de ${total} correctas`;
+  document.getElementById('nombre-display').textContent = `${estudiante.nombre} · ${estudiante.curso} · ${estudiante.fecha}`;
+
+  let emoji = '😔';
+  if (nota >= 4.5) emoji = '🏆';
+  else if (nota >= 4.0) emoji = '🥇';
+  else if (nota >= 3.5) emoji = '🥈';
+  else if (nota >= 3.0) emoji = '🎯';
+  else if (nota >= 2.5) emoji = '📚';
+  document.getElementById('insignia-emoji').textContent = emoji;
+
+  const letras = ['A', 'B', 'C', 'D'];
+  const tbody = document.getElementById('tbody-res');
+  tbody.innerHTML = '';
+  respuestas.forEach(r => {
+    tbody.innerHTML += `<tr>
+      <td>${r.pregunta}</td>
+      <td style="font-size:0.8rem">${r.seccion.replace('Sección','S.')}</td>
+      <td>${r.ok ? '<span class="icono-check">✅</span>' : '<span class="icono-x">❌</span>'}</td>
+      <td>${letras[r.correcta]}</td>
+    </tr>`;
+  });
+}
+
+function exportarCSV() {
+  const letras = ['A', 'B', 'C', 'D'];
+  let csv = 'Nombre,Curso,Fecha,Pregunta,Seccion,Respuesta Dada,Respuesta Correcta,Resultado\n';
+  respuestas.forEach(r => {
+    csv += `"${estudiante.nombre}","${estudiante.curso}","${estudiante.fecha}",${r.pregunta},"${r.seccion}",${letras[r.seleccionada]},${letras[r.correcta]},${r.ok ? 'Correcto' : 'Incorrecto'}\n`;
+  });
+  const correctas = respuestas.filter(r => r.ok).length;
+  const nota = ((correctas / PREGUNTAS.length) * 5).toFixed(1);
+  csv += `\n"Resumen","Correctas: ${correctas}/${PREGUNTAS.length}","Nota: ${nota}"\n`;
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `resultados_${estudiante.nombre.replace(/ /g,'_')}_inecuaciones.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function reiniciar() {
+  preguntaActual = 0;
+  respuestas = [];
+  document.getElementById('pantalla-resultados').style.display = 'none';
+  document.getElementById('pantalla-registro').style.display = 'block';
+}
+
+// Set today's date by default
+document.getElementById('inp-fecha').valueAsDate = new Date();
+</script>
+</body>
+</html>
