@@ -241,167 +241,157 @@
 <script>
 // ─────────────────────────────────────────────
 // BANCO DE PREGUNTAS (20 preguntas)
-// correcta: índice 0-3 (A,B,C,D)
-// La letra correcta varía según enunciado:
-// P1→A, P2→D, P3→B, P4→C, P5→A,
-// P6→D, P7→B, P8→C, P9→A, P10→D,
-// P11→B, P12→C, P13→A, P14→D, P15→B,
+// Letra correcta por pregunta:
+// P1→A, P2→D, P3→B, P4→C, P5→A
+// P6→D, P7→B, P8→C, P9→A, P10→D
+// P11→B, P12→C, P13→A, P14→D, P15→B
 // P16→C, P17→A, P18→D, P19→B, P20→C
 // ─────────────────────────────────────────────
 const PREGUNTAS = [
-  // ── SECCIÓN 1: ax + b (5 preguntas) ──
+  // ── SECCIÓN 1: ax + b  |  Nivel intermedio-superior ──
   {
-    seccion: "Sección 1 — Inecuaciones ax + b",
-    enunciado: "Resuelve la inecuación: <span class='eq'>3x − 9 ≥ 0</span>",
-    opciones: ["x ≥ 3", "x ≤ 3", "x ≥ −3", "x ≤ −3"],
+    seccion: "Sección 1 — Inecuaciones ax + b  ·  Nivel intermedio",
+    enunciado: "Resuelve la inecuación: <span class='eq'>(3/2)x − 9 > 0</span>",
+    opciones: ["x > 6", "x > 3", "x < 6", "x > 9"],
     correcta: 0, // A
-    feedback: "Sumamos 9: 3x ≥ 9. Dividimos entre 3 (positivo, no cambia el signo): x ≥ 3. Respuesta: A."
+    feedback: "Sumamos 9: (3/2)x > 9. Multiplicamos ambos lados por 2/3 (positivo, no cambia el signo): x > 6. Respuesta: A."
   },
   {
-    seccion: "Sección 1 — Inecuaciones ax + b",
-    enunciado: "Resuelve la inecuación: <span class='eq'>−2x + 6 > 0</span>",
-    opciones: ["x > 3", "x < −3", "x > −3", "x < 3"],
+    seccion: "Sección 1 — Inecuaciones ax + b  ·  Nivel intermedio",
+    enunciado: "Resuelve la inecuación: <span class='eq'>−(3/4)x + 9 ≤ 0</span>",
+    opciones: ["x ≤ 12", "x ≥ −12", "x ≤ −12", "x ≥ 12"],
     correcta: 3, // D
-    feedback: "Restamos 6: −2x > −6. Dividimos entre −2 (negativo: cambia el signo ≻ ≺): x < 3. Respuesta: D."
+    feedback: "Restamos 9: −(3/4)x ≤ −9. Multiplicamos por −4/3 (negativo, cambia el signo): x ≥ 12. Respuesta: D."
   },
   {
-    seccion: "Sección 1 — Inecuaciones ax + b",
-    enunciado: "Resuelve la inecuación: <span class='eq'>5x + 15 ≤ 0</span>",
-    opciones: ["x ≤ 3", "x ≤ −3", "x ≥ −3", "x ≥ 3"],
+    seccion: "Sección 1 — Inecuaciones ax + b  ·  Nivel intermedio",
+    enunciado: "Resuelve la inecuación: <span class='eq'>(2/3)x + 4 < −2</span>",
+    opciones: ["x < −3", "x < −9", "x > −9", "x < 9"],
     correcta: 1, // B
-    feedback: "Restamos 15: 5x ≤ −15. Dividimos entre 5 (positivo): x ≤ −3. Respuesta: B."
+    feedback: "Restamos 4: (2/3)x < −6. Multiplicamos por 3/2 (positivo): x < −9. Respuesta: B."
   },
   {
-    seccion: "Sección 1 — Inecuaciones ax + b",
-    enunciado: "Resuelve la inecuación: <span class='eq'>4x − 8 < 0</span>",
-    opciones: ["x < −2", "x > 2", "x < 2", "x < 2"],
-    opciones: ["x < −2", "x > 2", "x > −2", "x < 2"],
-    correcta: 2, // C (índice 2)
-    feedback: "Sumamos 8: 4x < 8. Dividimos entre 4: x < 2. Respuesta: C (x < 2)."
+    seccion: "Sección 1 — Inecuaciones ax + b  ·  Nivel superior",
+    enunciado: "Resuelve la inecuación con variables en ambos miembros: <span class='eq'>−5x + 3 ≥ 2x − 11</span>",
+    opciones: ["x ≥ 2", "x ≤ −2", "x ≤ 2", "x ≥ −2"],
+    correcta: 2, // C
+    feedback: "Pasamos términos: 3 + 11 ≥ 2x + 5x → 14 ≥ 7x → x ≤ 2. Dividimos entre 7 (positivo). Respuesta: C."
   },
   {
-    seccion: "Sección 1 — Inecuaciones ax + b",
-    enunciado: "Resuelve la inecuación: <span class='eq'>−7x + 14 ≥ 0</span>",
-    opciones: ["x ≤ 2", "x ≥ 2", "x ≤ −2", "x ≥ −2"],
+    seccion: "Sección 1 — Inecuaciones ax + b  ·  Nivel superior",
+    enunciado: "Resuelve la inecuación con paréntesis: <span class='eq'>3(2x − 1) − 4x > 5</span>",
+    opciones: ["x > 4", "x < 4", "x > 2", "x > 8"],
     correcta: 0, // A
-    feedback: "Restamos 14: −7x ≥ −14. Dividimos entre −7 (negativo, cambia signo): x ≤ 2. Respuesta: A."
+    feedback: "Distribuimos: 6x − 3 − 4x > 5 → 2x > 8 → x > 4. Dividimos entre 2 (positivo). Respuesta: A."
   },
 
-  // ── SECCIÓN 2: a < bx + c < d (5 preguntas) ──
+  // ── SECCIÓN 2: a < bx+c < d  |  Nivel superior ──
   {
-    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
-    enunciado: "Resuelve la inecuación compuesta: <span class='eq'>1 < 2x − 3 < 7</span>",
-    opciones: ["0 < x < 5", "2 < x < 5", "−2 < x < 2", "1 < x < 5"],
+    seccion: "Sección 2 — Inecuaciones a &lt; bx+c &lt; d  ·  Nivel superior",
+    enunciado: "Resuelve la inecuación con coeficiente fraccionario: <span class='eq'>−3 &lt; (x + 5)/2 ≤ 4</span>",
+    opciones: ["−1 < x ≤ 3", "−8 < x ≤ 3", "−16 < x ≤ 3", "−11 < x ≤ 3"],
     correcta: 3, // D
-    feedback: "Sumamos 3 en toda la inecuación: 4 < 2x < 10. Dividimos entre 2: 2 < x < 5. Respuesta: D."
+    feedback: "Multiplicamos por 2 (positivo): −6 < x + 5 ≤ 8. Restamos 5: −11 < x ≤ 3. Respuesta: D."
   },
   {
-    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
-    enunciado: "Resuelve: <span class='eq'>−5 ≤ 3x + 1 ≤ 10</span>",
-    opciones: ["−2 ≤ x ≤ 3", "2 ≤ x ≤ 3", "−3 ≤ x ≤ 3", "0 ≤ x ≤ 3"],
-    correcta: 1, // B (índice 1 → −2 ≤ x ≤ 3)
-    feedback: "Restamos 1: −6 ≤ 3x ≤ 9. Dividimos entre 3: −2 ≤ x ≤ 3. Respuesta: B."
+    seccion: "Sección 2 — Inecuaciones a &lt; bx+c &lt; d  ·  Nivel superior",
+    enunciado: "Resuelve: <span class='eq'>1 ≤ (2 − 3x)/4 &lt; 3</span>",
+    opciones: ["−10/3 &lt; x ≤ −2/3", "2/3 ≤ x &lt; 10/3", "−2 &lt; x ≤ 2/3", "−3 ≤ x &lt; 1/3"],
+    correcta: 1, // B
+    feedback: "Multiplicamos por 4: 4 ≤ 2 − 3x < 12. Restamos 2: 2 ≤ −3x < 10. Dividimos entre −3 (negativo, cambian los signos): −10/3 < x ≤ −2/3. Respuesta: B."
   },
   {
-    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
-    enunciado: "Resuelve: <span class='eq'>4 < −2x + 8 ≤ 14</span>",
-    opciones: ["−3 ≤ x < 2", "2 ≤ x < 3", "3 < x ≤ 4", "−4 ≤ x < 2"],
-    correcta: 2, // C (índice 2 → −3 ≤ x < 2)
-    opciones: ["−4 ≤ x < 2", "2 ≤ x < 3", "−3 ≤ x < 2", "3 < x ≤ 4"],
+    seccion: "Sección 2 — Inecuaciones a &lt; bx+c &lt; d  ·  Nivel superior",
+    enunciado: "Resuelve: <span class='eq'>−7 &lt; 3 − 2x ≤ 9</span>",
+    opciones: ["−3 &lt; x ≤ 5", "−5 &lt; x ≤ 3", "−3 ≤ x &lt; 5", "3 ≤ x &lt; 5"],
     correcta: 2, // C
-    feedback: "Restamos 8: −4 < −2x ≤ 6. Dividimos entre −2 (cambia signos): −3 ≤ x < 2. Respuesta: C."
+    feedback: "Restamos 3: −10 < −2x ≤ 6. Dividimos entre −2 (negativo, cambian los signos): −3 ≤ x < 5. Respuesta: C."
   },
   {
-    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
-    enunciado: "Resuelve: <span class='eq'>0 ≤ 5x − 10 < 15</span>",
-    opciones: ["2 ≤ x < 5", "0 ≤ x < 3", "2 < x ≤ 5", "−2 ≤ x < 5"],
+    seccion: "Sección 2 — Inecuaciones a &lt; bx+c &lt; d  ·  Nivel superior",
+    enunciado: "Resuelve: <span class='eq'>5 ≤ 4 − (x/3) &lt; 8</span>",
+    opciones: ["−12 &lt; x ≤ −3", "3 ≤ x &lt; 12", "−3 &lt; x ≤ 12", "−4 ≤ x &lt; 3"],
     correcta: 0, // A
-    feedback: "Sumamos 10: 10 ≤ 5x < 25. Dividimos entre 5: 2 ≤ x < 5. Respuesta: A."
+    feedback: "Restamos 4: 1 ≤ −x/3 < 4. Multiplicamos por −3 (negativo, cambian los signos): −12 < x ≤ −3. Respuesta: A."
   },
   {
-    seccion: "Sección 2 — Inecuaciones a < bx + c < d",
-    enunciado: "Resuelve: <span class='eq'>−8 < 4x + 4 ≤ 20</span>",
-    opciones: ["−4 < x ≤ 4", "0 < x ≤ 4", "−3 < x ≤ 4", "−3 < x ≤ 4"],
-    opciones: ["−4 < x ≤ 4", "0 < x ≤ 4", "−2 < x ≤ 4", "−3 < x ≤ 4"],
+    seccion: "Sección 2 — Inecuaciones a &lt; bx+c &lt; d  ·  Nivel superior",
+    enunciado: "Resuelve: <span class='eq'>−2 &lt; (5x − 3)/4 ≤ 3</span>",
+    opciones: ["−1 &lt; x ≤ 4", "0 &lt; x ≤ 3", "−5/4 &lt; x ≤ 3", "−1 &lt; x ≤ 3"],
     correcta: 3, // D
-    feedback: "Restamos 4: −12 < 4x ≤ 16. Dividimos entre 4: −3 < x ≤ 4. Respuesta: D."
+    feedback: "Multiplicamos por 4: −8 < 5x − 3 ≤ 12. Sumamos 3: −5 < 5x ≤ 15. Dividimos entre 5: −1 < x ≤ 3. Respuesta: D."
   },
 
-  // ── SECCIÓN 3: Problemas de aplicación (10 preguntas) ──
+  // ── SECCIÓN 3: Aplicaciones en ingeniería y ciencias  |  Nivel superior ──
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Un ingeniero civil diseña una viga cuya longitud L (en metros) debe satisfacer <span class='eq'>2L − 6 ≥ 0</span> para soportar la carga. ¿Cuál es la longitud mínima que debe tener la viga?",
-    opciones: ["L ≥ 3 m", "L ≤ 3 m", "L ≥ 6 m", "L ≥ 1 m"],
-    correcta: 1, // B (índice 1 → L ≥ 3)
-    opciones: ["L ≤ 3 m", "L ≥ 3 m", "L ≥ 6 m", "L ≥ 1 m"],
+    seccion: "Sección 3 — Aplicaciones  ·  Electricidad",
+    enunciado: "Por la ley de Ohm V = IR, la tensión V (V) en un circuito con resistencia R = 4 Ω debe satisfacer <span class='eq'>12 ≤ 4I ≤ 60</span>. ¿En qué rango debe estar la corriente I (A)?",
+    opciones: ["1 ≤ I ≤ 15", "3 ≤ I ≤ 15", "3 ≤ I ≤ 16", "4 ≤ I ≤ 15"],
     correcta: 1, // B
-    feedback: "2L ≥ 6 → L ≥ 3. La viga debe medir al menos 3 metros. Respuesta: B."
+    feedback: "Dividimos toda la inecuación entre 4 (positivo): 3 ≤ I ≤ 15. La corriente debe estar entre 3 A y 15 A. Respuesta: B."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "La temperatura T (°C) en un reactor químico debe controlarse según <span class='eq'>20 ≤ 5T − 5 ≤ 70</span> para garantizar la reacción. ¿En qué rango debe mantenerse T?",
-    opciones: ["1 ≤ T ≤ 15", "5 ≤ T ≤ 15", "5 ≤ T ≤ 14", "4 ≤ T ≤ 14"],
+    seccion: "Sección 3 — Aplicaciones  ·  Química",
+    enunciado: "La tasa de degradación de un compuesto orgánico sigue el modelo <span class='eq'>−(1/3)C + 8 ≥ 2</span>, donde C es la concentración (mg/L). ¿Para qué valores de C se cumple la condición?",
+    opciones: ["C ≥ 18", "C ≤ 6", "C ≤ 18", "C ≥ 6"],
     correcta: 2, // C
-    feedback: "Sumamos 5: 25 ≤ 5T ≤ 75. Dividimos entre 5: 5 ≤ T ≤ 15. Respuesta: C (índice 2 = 5 ≤ T ≤ 15 en la lista). Espera: opción C es '5 ≤ T ≤ 14'... Corrección: la respuesta correcta es 5 ≤ T ≤ 15, que corresponde a la opción B (índice 1). Sumamos 5 a toda la expresión: 25 ≤ 5T ≤ 75; dividimos entre 5: 5 ≤ T ≤ 15."
+    feedback: "Restamos 8: −(1/3)C ≥ −6. Multiplicamos por −3 (negativo, cambia el signo): C ≤ 18. La concentración no debe superar 18 mg/L. Respuesta: C."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Un estudiante de física lanza un cohete cuya altura h (m) cumple <span class='eq'>3h − 12 > 0</span>. Para que el cohete esté en zona de observación segura, h debe satisfacer:",
-    opciones: ["h > 4 m", "h < 4 m", "h > 6 m", "h > −4 m"],
+    seccion: "Sección 3 — Aplicaciones  ·  Cinemática",
+    enunciado: "La posición de una partícula en movimiento rectilíneo es <span class='eq'>x(t) = 3t − 6</span> metros. ¿A partir de qué instante t (s) la partícula está en posición positiva, es decir x(t) > 0?",
+    opciones: ["t > 2 s", "t > 3 s", "t > 6 s", "t > 1/2 s"],
     correcta: 0, // A
-    feedback: "3h > 12 → h > 4. El cohete debe estar a más de 4 m de altura. Respuesta: A."
+    feedback: "Resolvemos 3t − 6 > 0 → 3t > 6 → t > 2. La partícula ocupa posición positiva para t > 2 s. Respuesta: A."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Una empresa productora de energía solar requiere que la potencia P (W) de un panel satisfaga <span class='eq'>−P + 250 ≤ 0</span>. ¿Cuál es la condición mínima de potencia?",
-    opciones: ["P ≥ 250 W", "P ≤ 250 W", "P ≤ −250 W", "P ≥ 250 W"],
-    opciones: ["P ≤ 250 W", "P ≤ −250 W", "P ≥ 500 W", "P ≥ 250 W"],
+    seccion: "Sección 3 — Aplicaciones  ·  Ingeniería de fluidos",
+    enunciado: "La presión P (kPa) en una tubería debe cumplir <span class='eq'>15 ≤ (2P + 6)/3 ≤ 25</span>. ¿En qué intervalo debe mantenerse P?",
+    opciones: ["20 ≤ P ≤ 37", "21/2 ≤ P ≤ 37/2", "15 ≤ P ≤ 35", "39/2 ≤ P ≤ 69/2"],
     correcta: 3, // D
-    feedback: "−P ≤ −250 → P ≥ 250 (dividimos entre −1, cambia signo). El panel debe entregar al menos 250 W. Respuesta: D."
+    feedback: "Multiplicamos por 3: 45 ≤ 2P + 6 ≤ 75. Restamos 6: 39 ≤ 2P ≤ 69. Dividimos entre 2: 39/2 ≤ P ≤ 69/2. Respuesta: D."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "En un laboratorio de química, la concentración C (mol/L) de una solución debe estar en el rango <span class='eq'>1 < 2C − 1 < 5</span>. ¿En qué intervalo debe estar C?",
-    opciones: ["0 < C < 3", "1 < C < 3", "1 < C < 4", "2 < C < 4"],
+    seccion: "Sección 3 — Aplicaciones  ·  Biología",
+    enunciado: "Un cultivo bacteriano es viable cuando su pH satisface <span class='eq'>−3 ≤ 3(pH) − 18 ≤ 3</span>. ¿En qué intervalo debe estar el pH?",
+    opciones: ["4 ≤ pH ≤ 8", "5 ≤ pH ≤ 7", "6 ≤ pH ≤ 8", "4 ≤ pH ≤ 6"],
     correcta: 1, // B
-    feedback: "Sumamos 1: 2 < 2C < 6. Dividimos entre 2: 1 < C < 3. Respuesta: B."
+    feedback: "Sumamos 18: 15 ≤ 3·pH ≤ 21. Dividimos entre 3: 5 ≤ pH ≤ 7. El cultivo es viable en pH entre 5 y 7. Respuesta: B."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Un ingeniero de sonido necesita que la intensidad sonora I (dB) satisfaga <span class='eq'>4I − 8 ≤ 0</span> para no superar el límite de seguridad. ¿Cuál es el máximo valor permitido?",
-    opciones: ["I ≤ 4 dB", "I ≤ −2 dB", "I ≤ 2 dB", "I ≤ 8 dB"],
+    seccion: "Sección 3 — Aplicaciones  ·  Electrónica",
+    enunciado: "Dos resistores en serie disipan potencia según las expresiones <span class='eq'>3R − 5 &lt; 2R + 7</span> (en vatios), donde R es la resistencia (Ω). ¿Para qué valores de R se cumple la condición de operación segura?",
+    opciones: ["R > 12", "R < 2", "R &lt; 12", "R ≥ 12"],
     correcta: 2, // C
-    feedback: "4I ≤ 8 → I ≤ 2. La intensidad no puede superar 2 dB en esa escala. Respuesta: C."
+    feedback: "Pasamos 2R al primer miembro y −5 al segundo: 3R − 2R < 7 + 5 → R < 12. La resistencia debe ser menor que 12 Ω. Respuesta: C."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Un biólogo determina que una bacteria prolifera cuando su velocidad de reproducción v (células/h) cumple <span class='eq'>3v − 6 > 0</span>. ¿Cuándo hay proliferación?",
-    opciones: ["v > 2", "v < 2", "v > 3", "v > 6"],
+    seccion: "Sección 3 — Aplicaciones  ·  Economía de ingeniería",
+    enunciado: "El costo total de producción de n unidades de un componente electrónico es C = 500 + 80n (pesos × 10³). Para no superar el presupuesto de $2 100 000, se debe cumplir <span class='eq'>500 + 80n ≤ 2100</span>. ¿Cuántas unidades como máximo se pueden producir?",
+    opciones: ["n ≤ 20", "n ≤ 25", "n ≤ 32", "n ≤ 15"],
     correcta: 0, // A
-    feedback: "3v > 6 → v > 2. La bacteria prolifera cuando v > 2 células/h. Respuesta: A."
+    feedback: "Restamos 500: 80n ≤ 1600. Dividimos entre 80: n ≤ 20. Se pueden producir máximo 20 unidades. Respuesta: A."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "La resistencia eléctrica R (Ω) de un circuito debe encontrarse en el intervalo <span class='eq'>10 ≤ 5R − 5 ≤ 30</span>. ¿Cuál es el rango de R?",
-    opciones: ["3 ≤ R ≤ 7", "1 ≤ R ≤ 6", "2 ≤ R ≤ 7", "3 ≤ R ≤ 7"],
-    opciones: ["1 ≤ R ≤ 6", "2 ≤ R ≤ 7", "0 ≤ R ≤ 5", "3 ≤ R ≤ 7"],
+    seccion: "Sección 3 — Aplicaciones  ·  Hidráulica",
+    enunciado: "El caudal Q (m³/s) en una tubería de riego debe satisfacer <span class='eq'>4 &lt; (3Q − 2)/5 ≤ 8</span>. ¿En qué intervalo debe estar Q?",
+    opciones: ["22/3 &lt; Q ≤ 15", "6 &lt; Q ≤ 14", "2 &lt; Q ≤ 8", "22/3 &lt; Q ≤ 14"],
     correcta: 3, // D
-    feedback: "Sumamos 5: 15 ≤ 5R ≤ 35. Dividimos entre 5: 3 ≤ R ≤ 7. Respuesta: D."
+    feedback: "Multiplicamos por 5: 20 < 3Q − 2 ≤ 40. Sumamos 2: 22 < 3Q ≤ 42. Dividimos entre 3: 22/3 < Q ≤ 14. Respuesta: D."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "En diseño estructural, la carga w (kN/m) distribuida sobre una columna debe satisfacer <span class='eq'>2w + 4 ≥ 10</span> para garantizar la estabilidad. ¿Cuál es la carga mínima?",
-    opciones: ["w ≥ 4 kN/m", "w ≥ 3 kN/m", "w ≥ 2 kN/m", "w ≥ 5 kN/m"],
+    seccion: "Sección 3 — Aplicaciones  ·  Procesamiento de señales",
+    enunciado: "El retardo t (ms) de una señal en una red satisface <span class='eq'>−6 &lt; 4 − 5t ≤ 14</span>. ¿En qué intervalo se encuentra t?",
+    opciones: ["−2 &lt; t ≤ 2", "−2 ≤ t &lt; 2", "0 &lt; t ≤ 2", "−2 &lt; t &lt; 2"],
     correcta: 1, // B
-    feedback: "2w ≥ 6 → w ≥ 3. La carga mínima para garantizar estabilidad es 3 kN/m. Respuesta: B."
+    feedback: "Restamos 4: −10 < −5t ≤ 10. Dividimos entre −5 (negativo, cambian los signos): −2 ≤ t < 2. Respuesta: B."
   },
   {
-    seccion: "Sección 3 — Aplicaciones en ingeniería y ciencias",
-    enunciado: "Un agrónomo establece que el pH p del suelo debe cumplir <span class='eq'>−1 ≤ 3p − 7 ≤ 8</span> para el cultivo de café. ¿En qué rango debe estar el pH?",
-    opciones: ["2 ≤ p ≤ 5", "2 ≤ p ≤ 4", "1 ≤ p ≤ 4", "2 ≤ p ≤ 5"],
-    opciones: ["1 ≤ p ≤ 4", "3 ≤ p ≤ 5", "2 ≤ p ≤ 4", "2 ≤ p ≤ 5"],
+    seccion: "Sección 3 — Aplicaciones  ·  Mecánica de materiales",
+    enunciado: "El esfuerzo σ (MPa) en una viga de acero debe satisfacer <span class='eq'>(2σ + 10)/3 − σ ≥ 1</span> para garantizar que no hay falla. ¿Para qué valores de σ se cumple esto?",
+    opciones: ["σ ≥ 7", "σ ≤ −7", "σ ≤ 7", "σ ≥ −7"],
     correcta: 2, // C
-    feedback: "Sumamos 7: 6 ≤ 3p ≤ 15. Dividimos entre 3: 2 ≤ p ≤ 5. Respuesta: C (índice 2 en la lista presentada). Corrección de pantalla: la respuesta es p en [2, 5]."
+    feedback: "Multiplicamos por 3: 2σ + 10 − 3σ ≥ 3 → −σ ≥ −7 → σ ≤ 7. Dividimos entre −1 (cambia el signo). La condición se cumple para σ ≤ 7 MPa. Respuesta: C."
   },
 ];
 
